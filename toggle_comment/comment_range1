@@ -1,0 +1,28 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Enable Config
+
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: Configuration Recorder Configuration
+        Parameters:
+          - GlobalResourceTypesRegion
+      - Label:
+          default: Configuration Aggregator Configuration
+        Parameters:
+          - AggregatorAccount
+          - AggregatorRegion
+          - SourceAccounts
+          - SourceRegions
+    ParameterLabels:
+      GlobalResourceTypesRegion:
+        default: Global resource types region
+      AggregatorAccount:
+        default: Aggregator account
+      AggregatorRegion:
+        default: Aggregator region
+      SourceAccounts:
+        default: Source accounts
+      SourceRegions:
+        default: Source regions
