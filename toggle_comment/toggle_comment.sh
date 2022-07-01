@@ -24,7 +24,7 @@ match_lines(){
   comment_range_file=$1
   target_file=$2
   mode=$3
-  len_comment=$(wc -l < $comment_range_file)
+  len_comment=$(echo $(wc -l < $comment_range_file) | xargs)
   first_line=$(sed -n '1p' $comment_range_file)
   line_nums_first_line_match=$(grep -n "$first_line" $target_file | cut -d : -f 1)
   SAVEIFS=$IFS
