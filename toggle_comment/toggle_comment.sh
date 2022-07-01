@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # Comment/Uncomment the specific lines of files
-
+# NOTE: Switch lines using 'sed -i' according platforms (Linux or Mac)
+#
 # For such a case which needs temporary comment out like:
 # 1.comment out  2.do something 3.uncomment
 # By specifing with files of comment ranges,
@@ -25,6 +26,8 @@ match_lines(){
   target_file=$2
   mode=$3
   len_comment=$(echo $(wc -l < $comment_range_file) | xargs)
+
+  # Get array of line nums which first line of comment range matches in the target file.
   first_line=$(sed -n '1p' $comment_range_file)
   line_nums_first_line_match=$(grep -n "$first_line" $target_file | cut -d : -f 1)
   SAVEIFS=$IFS
@@ -48,11 +51,11 @@ match_lines(){
           # The final line of comment range file matched.
 
           if [[ $mode == "comment" ]]; then
-            sed -i -E ''${num_save}','${num}'s/^(# )?/# /' $target_file  # Linux
-            # sed -i "" -E ''${num_save}','${num}'s/^(# )?/# /' $target_file  # Mac
+            # sed -i -E ''${num_save}','${num}'s/^(# )?/# /' $target_file  # Linux
+            sed -i "" -E ''${num_save}','${num}'s/^(# )?/# /' $target_file  # Mac
           elif [[ $mode == "uncomment" ]]; then
-            sed -i -E ''${num_save}','${num}'s/^# //' $target_file  # Linux
-            # sed -i "" -E ''${num_save}','${num}'s/^# //' $target_file  # Mac
+            # sed -i -E ''${num_save}','${num}'s/^# //' $target_file  # Linux
+            sed -i "" -E ''${num_save}','${num}'s/^# //' $target_file  # Mac
           fi
 
           return
