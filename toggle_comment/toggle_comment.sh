@@ -92,6 +92,13 @@ fi
 toggle_comment "comment"
 
 # do_something
-sleep 5
-
+echo "Comment Done!"
+sleep 1
+echo Do something...
+sleep 1
+echo Do something...
+sleep 1
+echo Do something...
+sleep 1
 toggle_comment "uncomment"
+echo "UnComment Done!"
