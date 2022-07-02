@@ -94,11 +94,11 @@ toggle_comment "comment"
 # do_something
 echo "Comment Done!"
 sleep 1
-echo Do something...
+echo "Do something..."
 sleep 1
-echo Do something...
+echo "Do something..."
 sleep 1
-echo Do something...
+echo "Do something..."
 sleep 1
 toggle_comment "uncomment"
 echo "UnComment Done!"
