@@ -1,14 +1,19 @@
-# Welcome to your CDK TypeScript project
+# Send Alerts with Amazon SNS When You Are Being Charged for EIPs
 
-This is a blank project for CDK development with TypeScript.
+Described in [this medium post](https://medium.com/@shimo164/send-alerts-with-amazon-sns-when-you-are-being-charged-for-eips-5d6a9b838a2f)
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+## Preparation
 
-## Useful commands
+- Amazon SNS Topic is required.
 
-* `npm run build`   compile typescript to js
-* `npm run watch`   watch for changes and compile
-* `npm run test`    perform the jest unit tests
+
+- create a `.env` file and write SNS_ARN for you AWS SNS Topic.
+
+```
+SNS_ARN=arn:aws:sns:<region>:<account_id>:hoge
+```
+
+
+* `npm install`  Run to install node_modules
+
 * `cdk deploy`      deploy this stack to your default AWS account/region
-* `cdk diff`        compare deployed stack with current state
-* `cdk synth`       emits the synthesized CloudFormation template
