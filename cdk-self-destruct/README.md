@@ -1,9 +1,8 @@
-# About
-
 This CDK project is for the Medium post:
 
+“This Stack Will Self-Destruct After Lambda Function Executed”
 
-
+https://medium.com/@shimo164/this-stack-will-self-destruct-after-lambda-function-executed-261dc3c0fb04
 
 
 ## Build
