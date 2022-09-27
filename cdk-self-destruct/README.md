@@ -5,6 +5,8 @@ This CDK project is for the Medium post:
 https://medium.com/@shimo164/this-stack-will-self-destruct-after-lambda-function-executed-261dc3c0fb04
 
 
+[CloudFormation yaml is here.](https://github.com/shimo164/demos/tree/main/cfn-templates/self-destruct)
+
 ## Build
 To build this app, you need to be in this example's root folder. Then run the following:
 ```bash
