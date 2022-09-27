@@ -1,0 +1,114 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "At scheduled time, stop EC2 and delete this stack."
+Parameters:
+  InstanceId:
+    Type: String
+Resources:
+  MainHandlerServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: "2012-10-17"
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - :iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+  MainHandlerServiceRoleDefaultPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action: cloudformation:DeleteStack
+            Effect: Allow
+            Resource:
+              Fn::Join:
+                - ""
+                - - "arn:aws:cloudformation:"
+                  - Ref: AWS::Region
+                  - ":"
+                  - Ref: AWS::AccountId
+                  - :stack/Cdk*/*
+          - Action: ec2:StopInstances
+            Effect: Allow
+            Resource:
+              Fn::Join:
+                - ""
+                - - "arn:aws:ec2:"
+                  - Ref: AWS::Region
+                  - ":"
+                  - Ref: AWS::AccountId
+                  - :instance/*
+        Version: "2012-10-17"
+      PolicyName: MainHandlerServiceRoleDefaultPolicy
+      Roles:
+        - Ref: MainHandlerServiceRole
+  MainHandler:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        ZipFile: |
+          import os
+
+          import boto3
+
+
+          def handler(event, context):
+              instance_id = os.environ["InstanceId"]
+              print(f"Stop {instance_id}")
+              ec2 = boto3.client('ec2')
+              response = ec2.stop_instances(InstanceIds=[instance_id])
+              print(response)
+
+              print("Delete Cfn...")
+              stack_name = os.environ["StackName"]
+              client = boto3.client('cloudformation')
+              response = client.delete_stack(StackName=stack_name)
+              print(response)
+
+              return {'statusCode': response['ResponseMetadata']['HTTPStatusCode']}
+      Role:
+        Fn::GetAtt:
+          - MainHandlerServiceRole
+          - Arn
+      Environment:
+        Variables:
+          StackName: CdkScheduleStopEc2Stack
+          InstanceId:
+            Ref: InstanceId
+      Handler: index.handler
+      Runtime: python3.9
+      Timeout: 30
+    DependsOn:
+      - MainHandlerServiceRoleDefaultPolicy
+      - MainHandlerServiceRole
+  ScheduleRule:
+    Type: AWS::Events::Rule
+    Properties:
+      ScheduleExpression: cron(0 13 * * ? *)
+      State: ENABLED
+      Targets:
+        - Arn:
+            Fn::GetAtt:
+              - MainHandler
+              - Arn
+          Id: Target0
+  ScheduleRuleAllowEventRuleCdkScheduleStopEc2StackMainHandler:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - MainHandler
+          - Arn
+      Principal: events.amazonaws.com
+      SourceArn:
+        Fn::GetAtt:
+          - ScheduleRule
+          - Arn
