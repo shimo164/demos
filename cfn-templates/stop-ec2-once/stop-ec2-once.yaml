@@ -85,7 +85,8 @@ Resources:
           - Arn
       Environment:
         Variables:
-          StackName: CdkScheduleStopEc2Stack
+          StackName:
+            Ref: AWS::StackName
           InstanceId:
             Ref: InstanceId
       Handler: index.handler
