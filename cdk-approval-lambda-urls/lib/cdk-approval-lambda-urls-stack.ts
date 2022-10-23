@@ -52,6 +52,7 @@ export class CdkApprovalLambdaUrlsStack extends cdk.Stack {
       handler: 'approval.handler',
       code: lambda.Code.fromAsset('lambda'),
       retryAttempts: 0,
+      environment: { 'EMAIL': Email },
       timeout: cdk.Duration.seconds(60),
       role: LambdaStepFunctionsIAMRole,
     });
