@@ -120,7 +120,7 @@ export class CdkApprovalLambdaUrlsStack extends cdk.Stack {
 
     const definition = lambdaCallback
       .next(new sfn.Choice(this, 'ManualApprovalChoiceState')
-        .when(sfn.Condition.stringEquals('$.Status', 'Approved! Task approved by ${Email}'), ApprovedPassState)
+        .when(sfn.Condition.stringEquals('$.Status', `Approved! Task approved by ${Email}`), ApprovedPassState)
         .otherwise(RejectedPassState)
       );
 
