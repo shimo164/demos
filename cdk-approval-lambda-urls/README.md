@@ -1,4 +1,4 @@
-This repo folder is for my medium post.
+This repo folder is for my medium post. [Lambda Function URLs for Approval Actions in StepFunctions](https://medium.com/@shimo164/lambda-function-urls-for-approval-actions-in-stepfunctions-eeea1eba15e2)
 
 
 ## Build
@@ -13,4 +13,4 @@ This will install the necessary CDK, then this example's dependencies, and then 
 ## Deploy
 Run ```cdk deploy --context email=your@mail-address```. This will deploy / redeploy your Stack to your AWS Account.
 
-Note that --context to create SNS email address are required.
+Note the context  `--context email=your@mail-address` is required to create SNS.
