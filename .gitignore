@@ -1,0 +1,10 @@
+# Set only permitted dirs and files
+*
+!.gitignore
+!cdk-approval-lambda-urls/
+!cdk-eip-check/
+!cdk-lambda-sns/
+!cdk-self-destruct/
+!cdk-single-cw-alarm-stop-lambda/
+!cfn-templates/
+!toggle_comment/
