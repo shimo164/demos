@@ -1,4 +1,4 @@
-This repo folder is for my DEV.to post. []()
+This repo folder is for post. [Suspend any Lambda functions using a single CloudWatch Alarm](https://dev.to/aws-builders/suspend-any-lambda-functions-using-a-single-cloudwatch-alarm-na9)
 
 ## Build
 To build this app, you need to be in this example's root folder. Then run the following:
