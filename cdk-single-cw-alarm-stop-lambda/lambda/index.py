@@ -15,20 +15,20 @@ def get_invocation_top_functions():
     Check which functions are invoked many times
     """
     range_minutes = 5
-    cloud_watch = boto3.client('cloudwatch')
+    cloud_watch = boto3.client("cloudwatch")
 
     response = cloud_watch.get_metric_data(
         MetricDataQueries=[
             {
-                'Id': 'q1',
-                'Expression': """
+                "Id": "q1",
+                "Expression": """
                     SELECT SUM(Invocations)
                     FROM SCHEMA(\"AWS/Lambda\", FunctionName)
                     GROUP BY FunctionName
                     ORDER BY SUM() DESC
                     """,
-                'Period': 60,
-                'Label': 'Invocation top',
+                "Period": 60,
+                "Label": "Invocation top",
             },
         ],
         StartTime=datetime.now() - timedelta(minutes=range_minutes),
@@ -46,18 +46,18 @@ def handler(event, context):
 
     # Count invocation in range_minutes for each function
     # If the count is more than threshold, throttle the function
-    for fn in response['MetricDataResults']:
-        count = sum(fn['Values'])
-        fn_name = fn['Label'].split()[-1]
+    for fn in response["MetricDataResults"]:
+        count = sum(fn["Values"])
+        fn_name = fn["Label"].split()[-1]
 
         if count >= threshold_lambda_stop:
-            client = boto3.client('lambda')
+            client = boto3.client("lambda")
             response = client.put_function_concurrency(
                 FunctionName=fn_name, ReservedConcurrentExecutions=0
             )
 
             # Notify
-            if response['ResponseMetadata']['HTTPStatusCode'] == 200:
+            if response["ResponseMetadata"]["HTTPStatusCode"] == 200:
                 message = f"Lambda: {fn_name} was throttled. Count in 5 minutes: {count}."
                 subject = "Lambda throttled."
                 send_sns(message, subject)
