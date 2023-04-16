@@ -96,6 +96,11 @@ Resources:
           Value: MyCodePipelineDemo
       SecurityGroupIds:
         - !Ref InstanceSecurityGroup
+      BlockDeviceMappings:
+        - DeviceName: /dev/xvda
+          Ebs:
+            VolumeSize: 1
+            VolumeType: gp2
 
   EC2Instance2:
     Type: AWS::EC2::Instance
@@ -108,6 +113,11 @@ Resources:
           Value: MyCodePipelineDemo
       SecurityGroupIds:
         - !Ref InstanceSecurityGroup
+      BlockDeviceMappings:
+        - DeviceName: /dev/xvda
+          Ebs:
+            VolumeSize: 1
+            VolumeType: gp2
 
   CodePipelineRole:
     Type: 'AWS::IAM::Role'
