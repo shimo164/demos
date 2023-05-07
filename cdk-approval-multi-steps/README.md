@@ -1,4 +1,4 @@
-This repo folder is for my blog post.
+This repo folder is for my blog post. [StepFunctions Approval Action with One-Time HTML Page Confirmation](https://dev.to/aws-builders/stepfunctions-approval-action-with-one-time-html-page-confirmation-4og7)
 
 
 ## Build
